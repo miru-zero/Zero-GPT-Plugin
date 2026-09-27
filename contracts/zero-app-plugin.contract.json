@@ -1,0 +1,29 @@
+{
+  "name": "zero-gpt-plugin-contract",
+  "version": "2.0.0",
+  "purpose": "Document the intended ChatGPT app-plugin contract for Zero without local plugin packaging.",
+  "architecture": {
+    "chatgpt_layer": "App Plugin / MCP Server Connector",
+    "core_layer": "Zero Core Server",
+    "agent_layer": "Zero Agent"
+  },
+  "mcp": {
+    "server_url": "https://zero.miru.work/mcp",
+    "auth_mode_current": "none-private-test",
+    "auth_mode_future": "oauth-at-core-boundary"
+  },
+  "forbidden_package_artifacts": [
+    ".codex-plugin/plugin.json",
+    "agent-plugin/plugin.json",
+    "claude-plugin/plugin.json",
+    "plugin.json",
+    "mcp.json",
+    ".mcp.json",
+    ".app.json"
+  ],
+  "zero_layers": {
+    "app_plugin": "metadata and connector identity only",
+    "core_server": "MCP endpoint, tool listing, routing, policy, OAuth later",
+    "agent": "paired machine executor"
+  }
+}

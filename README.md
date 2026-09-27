@@ -1,77 +1,67 @@
 # Zero GPT Plugin
 
-Zero MCP Bridge for DevTeam/ZeroLab. Connects ChatGPT to `https://zero.miru.work/mcp` and exposes Zero command filesystem/path tools plus device registry actions.
+Zero GPT Plugin is the ChatGPT app-plugin surface for Zero.
 
-## Current release target
+This repository is intentionally **not** a Codex local plugin, not an Agent plugin, and not the runtime implementation of Zero tools.
 
-- App version: `1.1.0`
-- MCP endpoint: `https://zero.miru.work/mcp`
-- Command provider tools: `29`
-- Device provider tools: `4`
-- Total tools: `33`
+## Correct architecture
 
-## Tool groups
+```text
+ChatGPT App Plugin / MCP Server Connector
+        ↓
+Zero Core Server
+        ↓
+Zero Agent(s)
+```
 
-### `zero.command.filesystem.*`
+## Layer ownership
 
-Filesystem tools for safe allowed-root operations:
+| Layer | Repository role | Runtime responsibility |
+| --- | --- | --- |
+| App Plugin | Declares the ChatGPT-facing app/plugin identity and MCP connector intent | No tool execution logic |
+| Zero Core Server | Owns the public MCP endpoint and routing | Lists tools, validates calls, routes to providers/devices |
+| Zero Agent | Runs on paired machines | Executes canonical tools under policy |
 
-- `readFile`
-- `readFiles`
-- `writeFile`
-- `appendFile`
-- `createFile`
-- `touchFile`
-- `replaceFile`
-- `createDirectory`
-- `deleteFile`
-- `copyDirectory`
-- `moveDirectory`
-- `deleteDirectory`
-- `truncateFile`
-- `listDirectory`
-- `getFileInfo`
-- `globFiles`
-- `grepFiles`
-- `copyFile`
-- `moveFile`
-- `renameFile`
-- `exists`
-- `hashFile`
+## Current MCP endpoint
 
-### `zero.command.path.*`
+```text
+https://zero.miru.work/mcp
+```
 
-Path-only tools without filesystem side effects:
+## What this repo must not contain
 
-- `resolvePath`
-- `normalizePath`
-- `joinPath`
-- `relativePath`
-- `getParentDirectory`
-- `getFilename`
-- `getExtension`
+This repo must not contain local plugin package formats:
 
-### `zero.devices.*`
+```text
+.codex-plugin/plugin.json
+agent-plugin/plugin.json
+claude-plugin/plugin.json
+plugin.json
+mcp.json
+.app.json
+```
 
-Device registry and remote execution tools:
+Those files cause ChatGPT/Codex to treat the package as a local or desktop plugin package. That is not the desired Zero architecture.
 
-- `list`
-- `status`
-- `heartbeat`
-- `exec`
+## Desired ChatGPT profile flow
 
-## Files
+The Zero connection should be created as a ChatGPT MCP Server connector in the user's ChatGPT profile/app settings:
 
-- `manifest.json` — app metadata for the Zero ChatGPT App source.
-- `tools/zero-tools.json` — full provider/tool manifest exported from the live Zero Core.
-- `docs/smoke-test.md` — smoke test evidence for the current tool set.
+```text
+Name: Zero
+Server URL: https://zero.miru.work/mcp
+Authentication: None for private testing; OAuth later
+```
 
-## Runtime status
+After ChatGPT creates the server-side MCP connector, this repository can store documentation, contracts, and release notes for that app-plugin layer.
 
-The current Zero Core/MCP runtime has been tested with:
+## Future OAuth direction
 
-- `command` provider: `29` tools
-- `devices` provider: `4` tools
-- `$zero` plugin visibility: `33` tools
-- MiruZero canonical `devices.exec`: PASS
-- TON: left for a later agent update
+OAuth belongs at the Zero Core Server boundary, not in the Agent and not in a Codex local plugin wrapper.
+
+See:
+
+- `docs/ARCHITECTURE.md`
+- `docs/CHATGPT_MCP_CONNECTOR.md`
+- `docs/OAUTH_ROADMAP.md`
+- `docs/SECURITY_MODEL.md`
