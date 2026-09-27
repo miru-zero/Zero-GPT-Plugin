@@ -115,3 +115,22 @@ Use `/health.tools.providerToolsTotal` and `/health.tools.mcpToolsTotal`.
 
 `contractVersion` is the shared Zero contract version, not the app/plugin/Core package version.
 Use `/health.versions` for package and app identifiers.
+
+## UI component source
+
+The ChatGPT auth app UI follows the local Beautiful UI component patterns:
+
+```text
+M:\AI_ZERO\beautiful-ui
+```
+
+Current mappings:
+
+```text
+components/atoms/Button.tsx      -> pill action buttons
+components/atoms/StatusPill.tsx  -> redacted status pill with dot
+components/atoms/Chip.tsx        -> monospace metadata chips
+app/globals.css                  -> dark surface tokens, card shadows, field inset
+```
+
+The MCP resource is still emitted as `text/html;profile=mcp-app`, so these React/Tailwind patterns are translated into inline HTML/CSS in Zero Core instead of bundling React into the connector metadata repo.
