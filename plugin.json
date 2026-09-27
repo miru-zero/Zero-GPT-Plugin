@@ -1,0 +1,41 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "zero-gpt-plugin",
+  "version": "1.1.0",
+  "description": "Zero MCP Bridge for DevTeam/ZeroLab. Connects ChatGPT to zero.miru.work/mcp and exposes canonical Zero command filesystem tools, command path tools, and device registry actions.",
+  "author": {
+    "name": "App developer"
+  },
+  "homepage": "https://github.com/miru-zero/Zero-GPT-Plugin",
+  "repository": "https://github.com/miru-zero/Zero-GPT-Plugin",
+  "license": "UNLICENSED",
+  "keywords": [
+    "zero",
+    "mcp",
+    "filesystem",
+    "devices",
+    "chatgpt"
+  ],
+  "extensions": {
+    "com.openai": {
+      "apps": "./.app.json",
+      "interface": {
+        "displayName": "Zero",
+        "shortDescription": "Zero MCP Bridge for canonical command and device tools.",
+        "longDescription": "Zero MCP Bridge for DevTeam/ZeroLab. Connects ChatGPT to zero.miru.work/mcp and exposes canonical Zero command filesystem tools, command path tools, and device registry actions.",
+        "developerName": "App developer",
+        "category": "Other",
+        "capabilities": [
+          "Read",
+          "Write"
+        ],
+        "websiteURL": "https://github.com/miru-zero/Zero-GPT-Plugin",
+        "defaultPrompt": [
+          "Use Zero to list available tools.",
+          "Use Zero to check MiruZero device status.",
+          "Use Zero command tools to inspect files under allowed roots."
+        ]
+      }
+    }
+  }
+}
