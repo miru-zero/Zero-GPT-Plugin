@@ -65,3 +65,15 @@ See:
 - `docs/CHATGPT_MCP_CONNECTOR.md`
 - `docs/OAUTH_ROADMAP.md`
 - `docs/SECURITY_MODEL.md`
+
+## MCP Apps UI
+
+Zero now documents the ChatGPT embedded UI/resource layer in `docs/MCP_APPS_UI.md`.
+
+Current UI resource:
+
+```text
+ui://zero/chatgpt-auth/v1.html
+```
+
+The template must declare a widget domain, defaulting to `https://zero.miru.work`, with `ZERO_CHATGPT_WIDGET_DOMAIN` available for deployment overrides.

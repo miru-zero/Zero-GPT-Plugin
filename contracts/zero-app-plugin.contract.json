@@ -25,5 +25,20 @@
     "app_plugin": "metadata and connector identity only",
     "core_server": "MCP endpoint, tool listing, routing, policy, OAuth later",
     "agent": "paired machine executor"
+  },
+  "mcp_apps_ui": {
+    "resource_uri": "ui://zero/chatgpt-auth/v1.html",
+    "mime_type": "text/html;profile=mcp-app",
+    "widget_domain_default": "https://zero.miru.work",
+    "widget_domain_env": "ZERO_CHATGPT_WIDGET_DOMAIN",
+    "tool_template_binding": {
+      "tool": "zero.chatgpt.login",
+      "meta_ui_resourceUri": "ui://zero/chatgpt-auth/v1.html",
+      "openai_outputTemplate": "ui://zero/chatgpt-auth/v1.html"
+    },
+    "ui_only_tools": [
+      "zero.chatgpt.auth.import"
+    ],
+    "secret_boundary": "raw secrets never return to ChatGPT text output; redacted status only"
   }
 }
