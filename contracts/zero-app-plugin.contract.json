@@ -39,6 +39,9 @@
     "ui_only_tools": [
       "zero.chatgpt.auth.import"
     ],
-    "secret_boundary": "raw secrets never return to ChatGPT text output; redacted status only"
+    "secret_boundary": "raw secrets never return to ChatGPT text output; redacted status only",
+    "available_display_modes": [
+      "inline"
+    ]
   }
 }

@@ -82,3 +82,13 @@ Allowed output is redacted status only:
 ```
 
 Raw JSON, cookies, tokens, and session values must never be returned in ChatGPT text output.
+
+## Display mode
+
+The ChatGPT auth setup component is inline-only.
+
+```json
+{
+  "availableDisplayModes": ["inline"]
+}
+```
