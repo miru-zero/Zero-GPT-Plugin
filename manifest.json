@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "name": "Zero",
+  "version": "1.1.0",
+  "description": "Zero MCP Bridge for DevTeam/ZeroLab. Connects ChatGPT to zero.miru.work/mcp and exposes canonical Zero command filesystem tools, command path tools, and device registry actions.",
+  "developer": {
+    "name": "App developer"
+  },
+  "category": "Other",
+  "mcp": {
+    "server_url": "https://zero.miru.work/mcp",
+    "transport": "streamable_http"
+  },
+  "providers": {
+    "command": {
+      "type": "internal",
+      "tool_count": 29,
+      "categories": [
+        "filesystem",
+        "path"
+      ]
+    },
+    "devices": {
+      "type": "internal",
+      "tool_count": 4,
+      "categories": [
+        "devices"
+      ]
+    }
+  },
+  "tools_total": 33,
+  "canonical_prefixes": [
+    "zero.command.filesystem",
+    "zero.command.path",
+    "zero.devices"
+  ],
+  "runtime": {
+    "base_url": "https://zero.miru.work",
+    "mcp_endpoint": "/mcp",
+    "tools_endpoint": "/tools"
+  }
+}
