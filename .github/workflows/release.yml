@@ -1,0 +1,88 @@
+name: Release Zero GPT Plugin
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Release tag, for example v1.1.0
+        required: true
+        default: v1.1.0
+
+permissions:
+  contents: write
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate manifest
+        run: node scripts/check-manifest.js
+
+      - name: Resolve release tag
+        id: meta
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "tag=${{ inputs.tag }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "tag=${GITHUB_REF_NAME}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build install ZIP
+        run: |
+          mkdir -p dist/zero-gpt-plugin-1.1.0
+          cp manifest.json package.json README.md dist/zero-gpt-plugin-1.1.0/
+          cp -R tools docs scripts dist/zero-gpt-plugin-1.1.0/
+          cat > dist/zero-gpt-plugin-1.1.0/INSTALL.md <<'EOF'
+          # Install Zero GPT Plugin
+
+          Import or upload this ZIP as the Zero ChatGPT App / MCP plugin source.
+
+          Runtime endpoint:
+
+          ```text
+          https://zero.miru.work/mcp
+          ```
+
+          Expected app metadata:
+
+          ```text
+          version: 1.1.0
+          command tools: 29
+          devices tools: 4
+          total tools: 33
+          ```
+          EOF
+          cd dist
+          zip -r zero-gpt-plugin-1.1.0-install.zip zero-gpt-plugin-1.1.0
+          sha256sum zero-gpt-plugin-1.1.0-install.zip > zero-gpt-plugin-1.1.0-install.zip.sha256
+
+      - name: Upload workflow artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: zero-gpt-plugin-1.1.0-install
+          path: |
+            dist/zero-gpt-plugin-1.1.0-install.zip
+            dist/zero-gpt-plugin-1.1.0-install.zip.sha256
+
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.meta.outputs.tag }}
+          name: Zero GPT Plugin ${{ steps.meta.outputs.tag }}
+          body: |
+            Zero GPT Plugin install package.
+
+            - App version: 1.1.0
+            - MCP endpoint: https://zero.miru.work/mcp
+            - Command tools: 29
+            - Device tools: 4
+            - Total tools: 33
+          files: |
+            dist/zero-gpt-plugin-1.1.0-install.zip
+            dist/zero-gpt-plugin-1.1.0-install.zip.sha256
