@@ -92,3 +92,26 @@ The ChatGPT auth setup component is inline-only.
   "availableDisplayModes": ["inline"]
 }
 ```
+
+## Tool surface counts
+
+Zero intentionally exposes two different tool counts:
+
+```text
+providerToolsTotal = command/devices provider tools only
+mcpToolsTotal      = ChatGPT App MCP tools/list surface
+```
+
+Current private-test surface:
+
+```text
+providerToolsTotal: 33  # command 29 + devices 4
+mcpToolsTotal:      39  # provider tools + discovery/auth/app tools
+specialToolsTotal:   6  # listZeroTools, callZeroTool, auth QA, ChatGPT auth/app tools
+```
+
+Do not compare `/tools.total` with ChatGPT's app tool count directly.
+Use `/health.tools.providerToolsTotal` and `/health.tools.mcpToolsTotal`.
+
+`contractVersion` is the shared Zero contract version, not the app/plugin/Core package version.
+Use `/health.versions` for package and app identifiers.
